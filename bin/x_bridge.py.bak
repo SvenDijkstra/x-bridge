@@ -1,0 +1,280 @@
+#!/usr/bin/env python3
+
+import json
+import sqlite3
+import feedparser
+import requests
+import time
+import logging
+import sys
+import os
+import re
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
+
+class XDiscordBridge:
+    def __init__(self, account_name: str, config_path: str = '/opt/x-bridge/config/channels.json'):
+        self.account_name = account_name
+        self.config = self._load_config(config_path)
+        
+        # Setup logging
+        self._setup_logging()
+        
+        # Setup database
+        self.db_path = f'/opt/x-bridge/data/{account_name}/tweets.db'
+        self._init_db()
+        
+        # Get account-specific config
+        self.webhook_url = self.config['webhooks'].get(account_name)
+        self.twitter_handle = self.config['twitter_handles'].get(account_name)
+        self.rss_sources = self.config['rss_sources'].get(account_name, [])
+        
+        # Handle both string and list formats
+        if isinstance(self.rss_sources, str):
+            self.rss_sources = [self.rss_sources]
+        
+        if not self.webhook_url:
+            raise ValueError(f"Missing webhook for account: {account_name}")
+        if not self.twitter_handle:
+            raise ValueError(f"Missing twitter handle for account: {account_name}")
+        if not self.rss_sources:
+            raise ValueError(f"Missing RSS sources for account: {account_name}")
+        
+        self.logger.info(f"Initialized bridge for @{self.twitter_handle}")
+        self.logger.info(f"RSS sources: {self.rss_sources}")
+    
+    def _load_config(self, config_path: str) -> Dict:
+        with open(config_path, 'r') as f:
+            return json.load(f)
+    
+    def _setup_logging(self):
+        log_dir = Path(f'/opt/x-bridge/logs/{self.account_name}')
+        log_dir.mkdir(parents=True, exist_ok=True)
+        
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler(log_dir / 'bridge.log'),
+                logging.StreamHandler(sys.stdout)
+            ]
+        )
+        self.logger = logging.getLogger(f'x-bridge.{self.account_name}')
+    
+    def _init_db(self):
+        """Initialize SQLite database for tracking posted tweets"""
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS processed_tweets (
+                tweet_id TEXT PRIMARY KEY,
+                posted_at TIMESTAMP,
+                tweet_url TEXT,
+                content TEXT
+            )
+        ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS bridge_metadata (
+                key TEXT PRIMARY KEY,
+                value TEXT,
+                updated_at TIMESTAMP
+            )
+        ''')
+        conn.commit()
+        conn.close()
+    
+    def _get_last_processed_id(self) -> Optional[str]:
+        """Get the last processed tweet ID"""
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT tweet_id FROM processed_tweets ORDER BY posted_at DESC LIMIT 1"
+        )
+        result = cursor.fetchone()
+        conn.close()
+        return result[0] if result else None
+    
+    def _mark_processed(self, tweet_id: str, tweet_url: str, content: str):
+        """Mark a tweet as processed"""
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT OR REPLACE INTO processed_tweets (tweet_id, posted_at, tweet_url, content) VALUES (?, ?, ?, ?)",
+            (tweet_id, datetime.utcnow().isoformat(), tweet_url, content[:500])
+        )
+        conn.commit()
+        conn.close()
+        self.logger.info(f"Marked tweet {tweet_id} as processed")
+    
+    def fetch_tweets_from_source(self, rss_url: str) -> Tuple[List[Dict], bool]:
+        """Fetch tweets from a single RSS source"""
+        try:
+            self.logger.info(f"Trying RSS feed: {rss_url}")
+            feed = feedparser.parse(rss_url)
+            
+            if feed.bozo and feed.bozo_exception:
+                self.logger.warning(f"RSS parsing warning: {feed.bozo_exception}")
+                return [], False
+            
+            if not feed.entries:
+                self.logger.warning(f"No entries found in feed")
+                return [], False
+            
+            tweets = []
+            for entry in feed.entries:
+                # Extract tweet ID from URL
+                tweet_id = entry.link.split('/')[-1]
+                # Verify this tweet is actually from the expected account
+                if self.twitter_handle.lower() not in entry.link.lower():
+                    self.logger.debug(f"Skipping tweet from different account: {entry.link}")
+                    continue
+                    
+                tweets.append({
+                    'id': tweet_id,
+                    'title': entry.title,
+                    'link': entry.link,
+                    'published': entry.published,
+                    'summary': entry.summary,
+                    'author': entry.get('author', self.twitter_handle)
+                })
+            
+            self.logger.info(f"Successfully fetched {len(tweets)} tweets from {rss_url}")
+            return tweets, True
+            
+        except Exception as e:
+            self.logger.error(f"Error fetching from {rss_url}: {e}")
+            return [], False
+    
+    def fetch_tweets(self) -> List[Dict]:
+        """Try multiple RSS sources until one works"""
+        for rss_url in self.rss_sources:
+            tweets, success = self.fetch_tweets_from_source(rss_url)
+            if success and tweets:
+                return tweets
+        
+        self.logger.error(f"All RSS sources failed for {self.twitter_handle}")
+        return []
+    
+    def post_to_discord(self, tweet: Dict) -> bool:
+        """Post tweet to Discord via webhook"""
+        try:
+            # Clean up summary (remove HTML tags)
+            summary = tweet['summary']
+            # Simple HTML tag removal
+            summary = re.sub(r'<[^>]+>', ' ', summary)
+            summary = summary.replace('&lt;', '<').replace('&gt;', '>')
+            summary = summary.replace('&amp;', '&').replace('&quot;', '"')
+            summary = ' '.join(summary.split())  # Clean up whitespace
+            
+            # Truncate if too long
+            if len(summary) > 1900:
+                summary = summary[:1897] + "..."
+            
+            # Create embed message
+            payload = {
+                "username": f"📊 {self.twitter_handle}",
+                "avatar_url": "https://cdn-icons-png.flaticon.com/512/733/733579.png",
+                "content": f"🔵 **@{self.twitter_handle}**\n{tweet['link']}",
+                "embeds": [{
+                    "title": "New Tweet",
+                    "url": tweet['link'],
+                    "description": summary[:200] if len(summary) > 200 else summary,
+                    "color": 0x1DA1F2,
+                    "footer": {
+                        "text": f"@{self.twitter_handle} • {tweet['published'][:16]}"
+                    },
+                    "timestamp": datetime.utcnow().isoformat()
+                }]
+            }
+            
+            response = requests.post(
+                self.webhook_url,
+                json=payload,
+                timeout=10
+            )
+            
+            if response.status_code in [200, 204]:
+                self.logger.info(f"Successfully posted tweet {tweet['id']}")
+                return True
+            else:
+                self.logger.error(f"Failed to post: {response.status_code} - {response.text[:200]}")
+                return False
+                
+        except Exception as e:
+            self.logger.error(f"Error posting to Discord: {e}")
+            return False
+    
+    def run_once(self):
+        """Run one cycle of fetch and post"""
+        self.logger.info("Starting update cycle")
+        
+        tweets = self.fetch_tweets()
+        if not tweets:
+            self.logger.info("No tweets fetched")
+            return
+        
+        last_processed = self._get_last_processed_id()
+        
+        # Process tweets in reverse order (oldest first)
+        new_tweets = []
+        for tweet in reversed(tweets):
+            if last_processed and tweet['id'] == last_processed:
+                break
+            new_tweets.append(tweet)
+        
+        if not new_tweets:
+            self.logger.info("No new tweets to process")
+            return
+        
+        self.logger.info(f"Found {len(new_tweets)} new tweets")
+        
+        # Post new tweets
+        for tweet in new_tweets:
+            success = self.post_to_discord(tweet)
+            if success:
+                self._mark_processed(tweet['id'], tweet['link'], tweet['summary'])
+                time.sleep(self.config['settings']['rate_limit_seconds'])
+            else:
+                self.logger.error(f"Failed to post tweet {tweet['id']}, stopping batch")
+                break
+    
+    def run_once_and_exit(self):
+        """Run one cycle and exit (for testing)"""
+        self.logger.info("Running single update cycle")
+        self.run_once()
+        self.logger.info("Update cycle complete, exiting")
+    
+    def run_daemon(self):
+        """Run as a daemon with schedule"""
+        import schedule
+        
+        interval = self.config['settings']['check_interval_minutes']
+        schedule.every(interval).minutes.do(self.run_once)
+        
+        self.logger.info(f"Starting daemon mode, checking every {interval} minutes")
+        
+        # Run once immediately
+        self.run_once()
+        
+        while True:
+            schedule.run_pending()
+            time.sleep(60)
+
+if __name__ == "__main__":
+    if len(sys.argv) not in [2, 3]:
+        print("Usage: x_bridge.py <account_name> [--once]")
+        print("Accounts: investingcom, whale_alert, kobeissi, deltaone")
+        print("Options:")
+        print("  --once    Run once and exit (for testing)")
+        sys.exit(1)
+    
+    account = sys.argv[1]
+    run_once = len(sys.argv) == 3 and sys.argv[2] == '--once'
+    
+    bridge = XDiscordBridge(account)
+    
+    if run_once:
+        bridge.run_once_and_exit()
+    else:
+        bridge.run_daemon()

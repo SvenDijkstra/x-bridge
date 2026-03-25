@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "release_date": "2026-03-23",
+  "features": [
+    "Twitter RSS feed monitoring",
+    "Discord webhook posting",
+    "SQLite tracking",
+    "Systemd service integration"
+  ]
+}
