@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "=== X Bridge Version Monitor ==="
+echo "Production:"
+cat /opt/x-bridge/VERSION 2>/dev/null || echo "  No version file"
+echo ""
+echo "Development:"
+cat /opt/x-bridge-dev/VERSION 2>/dev/null || echo "  No dev environment"
+echo ""
+echo "Service status:"
+sudo systemctl status 'x-bridge@*.service' --no-pager | grep "Active:"
