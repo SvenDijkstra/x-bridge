@@ -1,0 +1,26 @@
+{
+  "webhooks": {
+    "investingcom": "https://discord.com/api/webhooks/1485715022381322370/byKtru5hHd5U-lVKztJlREAWEYOajiusmsYMOhz01NHlQoMydL5oX9T8vFQNqq8E0DcJ",
+    "whale_alert": "https://discord.com/api/webhooks/1485734173883760753/N4DNWsGRelG0iYYe72HBEAcTlWJzf08U1Nrk6Z0vEbr-ozqaogLeJ_1PpRwVM7Y7tEPH",
+    "kobeissi": "https://discord.com/api/webhooks/1485734710540767323/usNjlY4UlZrk3jK4dgCbQr6jXqYK00Eac-mopPoU0d4BSuhQxwtd9VsnQMVFRgY6rtbC",
+    "deltaone": "https://discord.com/api/webhooks/1485734314309320894/N8P_k505zMRIUXoyGgurL67vEIWIvtcTK7xh32Oi3X4g64AMQE9vwPf356Z8fJJVYDeg"
+  },
+  "twitter_handles": {
+    "investingcom": "Investingcom",
+    "whale_alert": "whale_alert",
+    "kobeissi": "KobeissiLetter",
+    "deltaone": "DeItaone"
+  },
+  "rss_sources": {
+    "investingcom": ["https://nitter.net/Investingcom/rss"],
+    "whale_alert": ["https://nitter.net/whale_alert/rss"],
+    "kobeissi": ["https://nitter.net/KobeissiLetter/rss"],
+    "deltaone": ["https://nitter.net/DeItaone/rss"]
+  },
+  "settings": {
+    "check_interval_minutes": 5,
+    "max_tweets_per_batch": 10,
+    "rate_limit_seconds": 2,
+    "rss_timeout_seconds": 10
+  }
+}

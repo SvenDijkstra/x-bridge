@@ -1,0 +1,48 @@
+{
+  "webhooks": {
+    "investingcom": "https://discord.com/api/webhooks/1486367766247374928/aQr9VlkB52tPsyJrUkCC7FSC4eZvIqUZoXEOsF73gaWeIUZGRB_OjElgyJ3e0IDJ_EYz",
+    "whale_alert": "https://discord.com/api/webhooks/DEV_TEST_ONLY/DO_NOT_USE",
+    "kobeissi": "https://discord.com/api/webhooks/DEV_TEST_ONLY/DO_NOT_USE",
+    "deltaone": "https://discord.com/api/webhooks/DEV_TEST_ONLY/DO_NOT_USE",
+    "realDonaldTrump": "https://discord.com/api/webhooks/1486358604381421738/sjeKqqfY7g2GxzXinEGEGu8uRXZXIwXvCrbj5l-T6c8pEcI9U2JyK3g1KH_oZJoB4bTa",
+    "FinancialJuice": "https://discord.com/api/webhooks/1486358600115814713/-jueHWo7d2Og8vkG-3NuF1zOxfKLSfaL8S4hJsoGzVhsy61O9_vhEPaTc53QD9yVOSVf",
+    "TruthTrumpPost": "https://discord.com/api/webhooks/1486355365049139321/kHeS9nmnc-pQwZy6wmfL-Dw2R6Ex30QfJAZuMgFmbUnyh6LM3uotfPTpmQPqlFnOFp6H"
+  },
+  "twitter_handles": {
+    "investingcom": "Investingcom",
+    "whale_alert": "whale_alert",
+    "kobeissi": "KobeissiLetter",
+    "deltaone": "DeItaone",
+    "realDonaldTrump": "realDonaldTrump",
+    "FinancialJuice": "FinancialJuice",
+    "TruthTrumpPost": "TruthTrumpPost"
+  },
+  "rss_sources": {
+    "investingcom": [
+      "https://nitter.net/Investingcom/rss"
+    ],
+    "whale_alert": [
+      "https://nitter.net/whale_alert/rss"
+    ],
+    "kobeissi": [
+      "https://nitter.net/KobeissiLetter/rss"
+    ],
+    "deltaone": [
+      "https://nitter.net/DeItaone/rss"
+    ],
+    "realDonaldTrump": [
+      "https://nitter.net/realDonaldTrump/rss"
+    ],
+    "FinancialJuice": [
+      "https://nitter.net/FinancialJuice/rss"
+    ],
+    "TruthTrumpPost": [
+      "https://nitter.net/TruthTrumpPost/rss"
+    ]
+  },
+  "settings": {
+    "check_interval_minutes": 5,
+    "max_tweets_per_batch": 5,
+    "rate_limit_seconds": 2
+  }
+}

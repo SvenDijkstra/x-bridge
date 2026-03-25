@@ -1,0 +1,115 @@
+{
+  "original_bots": {
+    "investingcom": {
+      "enabled": true,
+      "twitter_handle": "Investingcom",
+      "webhook": "https://discord.com/api/webhooks/1486367766247374928/aQr9VlkB52tPsyJrUkCC7FSC4eZvIqUZoXEOsF73gaWeIUZGRB_OjElgyJ3e0IDJ_EYz"
+    },
+    "whale_alert": {
+      "enabled": false,
+      "twitter_handle": "whale_alert",
+      "webhook": "https://discord.com/api/webhooks/1486358594224717845/wcSfXZt0xHUk-sWlkUC27p1F9cSHei0G8M94nQhE1-Qf0h7WJmXV4AG-U2mBdOS2n7M9"
+    },
+    "kobeissi": {
+      "enabled": true,
+      "twitter_handle": "KobeissiLetter",
+      "webhook": "https://discord.com/api/webhooks/1486358597915779082/uV-PtDibnT-RXjs02c3wAAgGmd1DVfWY_jLtU84k1P8cQQskpJwK56EO0frw79U02PwO"
+    },
+    "deltaone": {
+      "enabled": true,
+      "twitter_handle": "DeItaone",
+      "webhook": "https://discord.com/api/webhooks/1486358601237925898/nyO6SSF8QZPG0yp1HV2r7HcLrDMSmr66WmN3pkLsqRzA-yr3ejVB1TgbEQ0lRTRxCLO2"
+    },
+    "realDonaldTrump": {
+      "enabled": true,
+      "twitter_handle": "realDonaldTrump",
+      "webhook": "https://discord.com/api/webhooks/1486358604381421738/sjeKqqfY7g2GxzXinEGEGu8uRXZXIwXvCrbj5l-T6c8pEcI9U2JyK3g1KH_oZJoB4bTa"
+    },
+    "FinancialJuice": {
+      "enabled": true,
+      "twitter_handle": "FinancialJuice",
+      "webhook": "https://discord.com/api/webhooks/1486358600115814713/-jueHWo7d2Og8vkG-3NuF1zOxfKLSfaL8S4hJsoGzVhsy61O9_vhEPaTc53QD9yVOSVf"
+    },
+    "TruthTrumpPost": {
+      "enabled": true,
+      "twitter_handle": "TruthTrumpPost",
+      "webhook": "https://discord.com/api/webhooks/1486355365049139321/kHeS9nmnc-pQwZy6wmfL-Dw2R6Ex30QfJAZuMgFmbUnyh6LM3uotfPTpmQPqlFnOFp6H"
+    }
+  },
+  "translations": {
+    "investingcom": {
+      "enabled": true,
+      "source_lang": "en",
+      "targets": [
+        {
+          "lang": "de",
+          "name": "german",
+          "webhook": "https://discord.com/api/webhooks/1486368176991113417/zh3_-QZC5nuGgKSt86ogrCH6SgATj39880jcYMlMWev9t0uPn6DN7ppgx8nvCqURJj5Q"
+        }
+      ]
+    },
+    "whale_alert": {
+      "enabled": false,
+      "source_lang": "en",
+      "targets": []
+    },
+    "kobeissi": {
+      "enabled": true,
+      "source_lang": "en",
+      "targets": [
+        {
+          "lang": "de",
+          "name": "german",
+          "webhook": "https://discord.com/api/webhooks/1486358610635133070/xKUYJ42-lXc0EIizSuUCY0NC2R9x_mJ2kEpx2ZGAGPMceAfDKKZyMt2cC2MkIldVt7ZH"
+        }
+      ]
+    },
+    "deltaone": {
+      "enabled": true,
+      "source_lang": "en",
+      "targets": [
+        {
+          "lang": "de",
+          "name": "german",
+          "webhook": "https://discord.com/api/webhooks/1486358606264664195/RrZCIDT64nGDP7JEnBE3JrddBq7wLB5ZzvI66tqZQ7L-oh6pl1S991u-1o2Og5N4pvqK"
+        }
+      ]
+    },
+    "realDonaldTrump": {
+      "enabled": true,
+      "source_lang": "en",
+      "targets": [
+        {
+          "lang": "de",
+          "name": "german",
+          "webhook": "https://discord.com/api/webhooks/1486358602347188244/XJMkBOlxqqvxdnESux0TEWpoLsQqT1ae0qFptLrwa-e0drWXwnSh2X3L5swO_qGnDjcx"
+        }
+      ]
+    },
+    "FinancialJuice": {
+      "enabled": true,
+      "source_lang": "en",
+      "targets": [
+        {
+          "lang": "de",
+          "name": "german",
+          "webhook": "https://discord.com/api/webhooks/1486355379834323066/Z4lM0FpbwMhRiuM4lwHXL7WBl4v0hoIs3qLSejf2mc_0YymF-168CNoFCPpTBOt2lH7u"
+        }
+      ]
+    },
+    "TruthTrumpPost": {
+      "enabled": true,
+      "source_lang": "en",
+      "targets": [
+        {
+          "lang": "de",
+          "name": "german",
+          "webhook": "https://discord.com/api/webhooks/1486355376378216479/k-f5HNi0FD0qn-JhzqTMWtQ--ek_pAUKOVdyE1S2tFW33AGzD9L4EzCGczXlCgsXPzFR"
+        }
+      ]
+    }
+  },
+  "settings": {
+    "check_interval_minutes": 5
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "original_bots": {
+    "investingcom": {
+      "enabled": true,
+      "twitter_handle": "Investingcom",
+      "webhook": "https://discord.com/api/webhooks/1485715022381322370/byKtru5hHd5U-lVKztJlREAWEYOajiusmsYMOhz01NHlQoMydL5oX9T8vFQNqq8E0DcJ"
+    },
+    "whale_alert": {
+      "enabled": false,
+      "twitter_handle": "whale_alert",
+      "webhook": ""
+    },
+    "kobeissi": {
+      "enabled": true,
+      "twitter_handle": "KobeissiLetter",
+      "webhook": "https://discord.com/api/webhooks/1485734710540767323/usNjlY4UlZrk3jK4dgCbQr6jXqYK00Eac-mopPoU0d4BSuhQxwtd9VsnQMVFRgY6rtbC"
+    },
+    "deltaone": {
+      "enabled": true,
+      "twitter_handle": "DeItaone",
+      "webhook": "https://discord.com/api/webhooks/1485734314309320894/N8P_k505zMRIUXoyGgurL67vEIWIvtcTK7xh32Oi3X4g64AMQE9vwPf356Z8fJJVYDeg"
+    }
+  },
+  "translations": {
+    "investingcom": {
+      "enabled": true,
+      "source_lang": "en",
+      "targets": [
+        {
+          "lang": "de",
+          "name": "german",
+          "webhook": "https://discord.com/api/webhooks/1486358608173076542/dX1qugFd7dAOIlUQgwqTVCChgmuuWn0SvUbsRNk1SZXQVZ88bNm2c1L68rvRwTVkzzIu"
+        }
+      ]
+    },
+    "whale_alert": {
+      "enabled": false,
+      "source_lang": "en",
+      "targets": [
+        {
+          "lang": "de",
+          "name": "german",
+          "webhook": "YOUR_GERMAN_WEBHOOK_URL"
+        }
+      ]
+    },
+    "kobeissi": {
+      "enabled": true,
+      "source_lang": "en",
+      "targets": [
+        {
+          "lang": "de",
+          "name": "german",
+          "webhook": "https://discord.com/api/webhooks/1486358610635133070/xKUYJ42-lXc0EIizSuUCY0NC2R9x_mJ2kEpx2ZGAGPMceAfDKKZyMt2cC2MkIldVt7ZH"
+        }
+      ]
+    },
+    "deltaone": {
+      "enabled": true,
+      "source_lang": "en",
+      "targets": [
+        {
+          "lang": "de",
+          "name": "german",
+          "webhook": "https://discord.com/api/webhooks/1486358606264664195/RrZCIDT64nGDP7JEnBE3JrddBq7wLB5ZzvI66tqZQ7L-oh6pl1S991u-1o2Og5N4pvqK"
+        }
+      ]
+    }
+  },
+  "translation_service": {
+    "type": "mock",
+    "endpoint": "http://localhost:5000"
+  },
+  "settings": {
+    "check_interval_minutes": 5
+  }
+}
+    "investingcom": {
+      "enabled": true,
+      "source_lang": "en",
+      "targets": [
+        {"lang": "de", "name": "german", "webhook": "WEBHOOK_DE"},
+        {"lang": "es", "name": "spanish", "webhook": "WEBHOOK_ES"},
+        {"lang": "fr", "name": "french", "webhook": "WEBHOOK_FR"},
+        {"lang": "nl", "name": "dutch", "webhook": "WEBHOOK_NL"}
+      ]
+    }
