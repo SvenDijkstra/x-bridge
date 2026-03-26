@@ -3,7 +3,7 @@
     "investingcom": {
       "enabled": true,
       "twitter_handle": "Investingcom",
-      "webhook": "https://discord.com/api/webhooks/1485715022381322370/byKtru5hHd5U-lVKztJlREAWEYOajiusmsYMOhz01NHlQoMydL5oX9T8vFQNqq8E0DcJ"
+          "webhook": "YOUR_ENGLISH_WEBHOOK_URL"
     },
     "whale_alert": {
       "enabled": false,
@@ -13,12 +13,12 @@
     "kobeissi": {
       "enabled": true,
       "twitter_handle": "KobeissiLetter",
-      "webhook": "https://discord.com/api/webhooks/1485734710540767323/usNjlY4UlZrk3jK4dgCbQr6jXqYK00Eac-mopPoU0d4BSuhQxwtd9VsnQMVFRgY6rtbC"
+          "webhook": "YOUR_ENGLISH_WEBHOOK_URL"
     },
     "deltaone": {
       "enabled": true,
       "twitter_handle": "DeItaone",
-      "webhook": "https://discord.com/api/webhooks/1485734314309320894/N8P_k505zMRIUXoyGgurL67vEIWIvtcTK7xh32Oi3X4g64AMQE9vwPf356Z8fJJVYDeg"
+          "webhook": "YOUR_ENGLISH_WEBHOOK_URL"
     }
   },
   "translations": {
@@ -29,7 +29,7 @@
         {
           "lang": "de",
           "name": "german",
-          "webhook": "https://discord.com/api/webhooks/1486358608173076542/dX1qugFd7dAOIlUQgwqTVCChgmuuWn0SvUbsRNk1SZXQVZ88bNm2c1L68rvRwTVkzzIu"
+          "webhook": "YOUR_GERMAN_WEBHOOK_URL"
         }
       ]
     },
@@ -51,7 +51,7 @@
         {
           "lang": "de",
           "name": "german",
-          "webhook": "https://discord.com/api/webhooks/1486358610635133070/xKUYJ42-lXc0EIizSuUCY0NC2R9x_mJ2kEpx2ZGAGPMceAfDKKZyMt2cC2MkIldVt7ZH"
+          "webhook": "YOUR_GERMAN_WEBHOOK_URL"
         }
       ]
     },
@@ -62,7 +62,7 @@
         {
           "lang": "de",
           "name": "german",
-          "webhook": "https://discord.com/api/webhooks/1486358606264664195/RrZCIDT64nGDP7JEnBE3JrddBq7wLB5ZzvI66tqZQ7L-oh6pl1S991u-1o2Og5N4pvqK"
+          "webhook": "YOUR_GERMAN_WEBHOOK_URL"
         }
       ]
     }
